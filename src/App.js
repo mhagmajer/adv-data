@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line } from 'recharts';
 import {
   Grid,
   Segment,
 } from 'semantic-ui-react';
+
 import fetchData from './fetchData';
+import Chart from './Chart';
+import Sidebar from './Sidebar';
 
 import 'semantic-ui-css/semantic.min.css';
 
 function App() {
   const [data, setData] = useState({});
+  const [filter, setFilter] = useState({
+    Datasource: ['Facebook Ads'],
+    Campaign: ['Like Ads'],
+  });
+
   useEffect(() => {
     (async () => {
       try {
-        console.log(await fetchData());
         setData(await fetchData());
       } catch (e) {
         console.error(e);
@@ -34,13 +40,17 @@ function App() {
       </Grid.Row>
       <Grid.Row columns={2}>
         <Grid.Column width={4}>
-          <Segment>Content</Segment>
+          <Sidebar
+            filters={data.filters}
+            {...{ filter, setFilter }}
+          />
         </Grid.Column>
         <Grid.Column width={12}>
           <Segment>
-            <LineChart width={400} height={400} data={data.rows.slice(0, 5)}>
-              <Line type="monotone" dataKey="Clicks" stroke="#8884d8" />
-            </LineChart>
+            <Chart
+              rows={data.rows}
+              {...{ filter }}
+            />
           </Segment>
         </Grid.Column>
       </Grid.Row>
