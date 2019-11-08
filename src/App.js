@@ -9,16 +9,21 @@ import fetchData from './fetchData';
 import 'semantic-ui-css/semantic.min.css';
 
 function App() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   useEffect(() => {
     (async () => {
       try {
+        console.log(await fetchData());
         setData(await fetchData());
       } catch (e) {
         console.error(e);
       }
     })();
   }, []);
+
+  if (!data.rows) {
+    return null;
+  }
 
   return (
     <Grid celled container columns={2} stackable>
@@ -33,7 +38,7 @@ function App() {
         </Grid.Column>
         <Grid.Column width={12}>
           <Segment>
-            <LineChart width={400} height={400} data={data.slice(0, 10)}>
+            <LineChart width={400} height={400} data={data.rows.slice(0, 5)}>
               <Line type="monotone" dataKey="Clicks" stroke="#8884d8" />
             </LineChart>
           </Segment>
