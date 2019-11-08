@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const dataUrl = 'http://adverity-challenge.s3-website-eu-west-1.amazonaws.com/DAMKBAoDBwoDBAkOBAYFCw.csv';
+const dataUrl = '//adverity-challenge.s3-website-eu-west-1.amazonaws.com/DAMKBAoDBwoDBAkOBAYFCw.csv';
 
 export default async function fetchData(): {
   rows: [{

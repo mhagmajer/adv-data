@@ -13,7 +13,7 @@ const Sidebar = ({
   <>
     {filters.map(({ key, values }) => (
       <Segment key={key}>
-        <Header>{key}</Header>
+        <Header as="h5">{key}</Header>
         <Dropdown
           placeholder='State'
           fluid
