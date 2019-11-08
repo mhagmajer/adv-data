@@ -1,5 +1,13 @@
 import React from 'react';
-import { LineChart, Line } from 'recharts';
+import {
+  Label,
+  Legend,
+  Line,
+  LineChart,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
 const Chart = ({
   filter,
@@ -11,8 +19,18 @@ const Chart = ({
   }));
 
   return (
-    <LineChart width={400} height={400} data={filteredRows}>
-      <Line type="monotone" dataKey="Clicks" stroke="#8884d8" />
+    <LineChart width={800} height={400} data={filteredRows}>
+      <XAxis dataKey="Date" />
+      <YAxis yAxisId="clicks">
+        <Label angle={-90} position="insideLeft">Clicks</Label>
+      </YAxis>
+      <YAxis yAxisId="impressions" orientation="right">
+        <Label angle={90} position="insideRight">Impressions</Label>
+      </YAxis>
+      <Tooltip />
+      <Legend />
+      <Line yAxisId="clicks" type="monotone" dataKey="Clicks" stroke="blue" />
+      <Line yAxisId="impressions" type="monotone" dataKey="Impressions" stroke="green" />
     </LineChart>
   );
 }
