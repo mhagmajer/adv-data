@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { LineChart, Line } from 'recharts';
 import {
   Grid,
   Segment,
 } from 'semantic-ui-react';
+import fetchData from './fetchData';
 
 import 'semantic-ui-css/semantic.min.css';
 
-const data = [
-  { name: 'Page A', uv: 100 },
-  { name: 'Page B', uv: 300 },
-  { name: 'Page C', uv: 200 },
-];
-
 function App() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        setData(await fetchData());
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
   return (
     <Grid celled container columns={2} stackable>
       <Grid.Row columns={1}>
@@ -27,8 +33,8 @@ function App() {
         </Grid.Column>
         <Grid.Column width={12}>
           <Segment>
-            <LineChart width={400} height={400} data={data}>
-              <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+            <LineChart width={400} height={400} data={data.slice(0, 10)}>
+              <Line type="monotone" dataKey="Clicks" stroke="#8884d8" />
             </LineChart>
           </Segment>
         </Grid.Column>
