@@ -10,14 +10,14 @@ class DataModel<R> {
   _rows: R[];
   _filterKeys: $Keys<R>[];
 
-  getRows(filter: { [$Keys<R>]: [string] }): R[] {
+  getRows(filter: { [$Keys<R>]: [string] } = {}): R[] {
     return this._rows.filter(row => Object.keys(filter).every((key) => {
       const filterValues = filter[key];
       return !filterValues.length || filterValues.includes(row[key])
     }));
   }
 
-  getFilters(filter: { [$Keys<R>]: [string] }): { [$Keys<R>]: [string] } {
+  getFilters(filter: { [$Keys<R>]: [string] } = {}): { [$Keys<R>]: [string] } {
     const filteredRows = this.getRows(filter);
     return _.fromPairs(this._filterKeys.map(key => [
       key,
