@@ -10,24 +10,28 @@ import {
 } from 'semantic-ui-react';
 import { timeout } from 'promise-more';
 
-import fetchData from './fetchData';
+import parseData from './parseData';
 import Chart from './Chart';
 import Sidebar from './Sidebar';
 
 import 'semantic-ui-css/semantic.min.css';
 
+const dataUrl = '//adverity-challenge.s3-website-eu-west-1.amazonaws.com/DAMKBAoDBwoDBAkOBAYFCw.csv';
+
 function App() {
-  const [data, setData] = useState();
+  const [model, setModel] = useState();
   const [error, setError] = useState();
   const [filter, setFilter] = useState({
-    Datasource: ['Facebook Ads'],
-    Campaign: ['Like Ads'],
+    datasource: ['Facebook Ads'],
+    campaign: ['Like Ads'],
   });
 
   useEffect(() => {
     (async () => {
       try {
-        setData(await timeout(fetchData(), 5000));
+        const response = await timeout(fetch(dataUrl), 5000);
+        const text = await response.text();
+        setModel(parseData(text));
       } catch (e) {
         setError(e);
         console.error(e);
@@ -37,7 +41,7 @@ function App() {
 
   return (
     <Grid celled container columns={2} stackable>
-      <Dimmer active={!data && !error} inverted>
+      <Dimmer active={!model && !error} inverted>
         <Loader>Loading</Loader>
       </Dimmer>
       <Dimmer active={!!error}>
@@ -51,19 +55,17 @@ function App() {
       </Grid.Row>
       <Grid.Row columns={2}>
         <Grid.Column width={4}>
-          {data && (
+          {model && (
             <Sidebar
-              filters={data.filters}
-              {...{ filter, setFilter }}
+              {...{ model, filter, setFilter }}
             />
           )}
         </Grid.Column>
         <Grid.Column width={12}>
           <Segment>
-            {data && (
+            {model && (
               <Chart
-                rows={data.rows}
-                {...{ filter }}
+                {...{ model, filter }}
               />
             )}
           </Segment>

@@ -6,12 +6,12 @@ import {
 } from 'semantic-ui-react';
 
 const Sidebar = ({
-  filters,
+  model,
   filter,
   setFilter
 }) => (
   <>
-    {filters.map(({ key, values }) => (
+    {Object.entries(model.getFilters(filter)).map(([key, values]) => (
       <Segment key={key}>
         <Header as="h5">{key}</Header>
         <Dropdown

@@ -10,17 +10,12 @@ import {
 } from 'recharts';
 
 const Chart = ({
+  model,
   filter,
-  rows,
 }) => {
-  const filteredRows = rows.filter(row => Object.keys(filter).every((key) => {
-    const filterValues = filter[key];
-    return !filterValues.length || filterValues.includes(row[key])
-  }));
-
   return (
-    <LineChart width={800} height={400} data={filteredRows}>
-      <XAxis dataKey="Date" />
+    <LineChart width={800} height={400} data={model.getRows(filter)}>
+      <XAxis dataKey="date" />
       <YAxis yAxisId="clicks">
         <Label angle={-90} position="insideLeft">Clicks</Label>
       </YAxis>
@@ -29,8 +24,8 @@ const Chart = ({
       </YAxis>
       <Tooltip />
       <Legend />
-      <Line yAxisId="clicks" type="monotone" dataKey="Clicks" stroke="blue" />
-      <Line yAxisId="impressions" type="monotone" dataKey="Impressions" stroke="green" />
+      <Line yAxisId="clicks" type="monotone" dataKey="clicks" stroke="blue" />
+      <Line yAxisId="impressions" type="monotone" dataKey="impressions" stroke="green" />
     </LineChart>
   );
 }
