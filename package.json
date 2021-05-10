@@ -4,7 +4,7 @@
   "homepage": "http://mhagmajer.github.io/adv-data",
   "private": true,
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "luxon": "^1.21.2",
     "promise-more": "^1.0.29",
     "react": "^16.11.0",
